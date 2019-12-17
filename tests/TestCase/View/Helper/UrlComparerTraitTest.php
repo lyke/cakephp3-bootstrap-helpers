@@ -63,7 +63,7 @@ class UrlComparerTraitTest extends TestCase {
         }
         Router::fullBaseUrl('');
         Configure::write('App.fullBaseUrl', 'http://localhost');
-        $request = new ServerRequest('/pages/view/1');
+        $request = new ServerRequest(['url' => '/pages/view/1']);
         $request = $request
             ->withAttribute('params', [
                 'action' => 'view',
@@ -72,7 +72,7 @@ class UrlComparerTraitTest extends TestCase {
                 'pass' => ['1']
             ])
             ->withAttribute('base', '/cakephp');
-        Router::setRequestInfo($request);
+        Router::setRequest($request);
         $tests = [
             ['/pages', '/pages/display'],
             ['/pages/display/test', '/pages/display'],
@@ -132,7 +132,7 @@ class UrlComparerTraitTest extends TestCase {
         }
         Router::fullBaseUrl('');
         Configure::write('App.fullBaseUrl', 'http://localhost');
-        $request = new ServerRequest('/pages/view/1');
+        $request = new ServerRequest(['url' => '/pages/view/1']);
         $request = $request
             ->withAttribute('params', [
                 'action' => 'view',
@@ -141,7 +141,7 @@ class UrlComparerTraitTest extends TestCase {
                 'pass' => ['1']
             ])
             ->withAttribute('base', '/cakephp');
-        Router::setRequestInfo($request);
+        Router::setRequest($request);
         $tests = [
             ['/pages', '/pages/display'],
             ['/pages/test', '/pages/display/test'],
@@ -224,7 +224,7 @@ class UrlComparerTraitTest extends TestCase {
     public function testFullBase() {
         Router::fullBaseUrl('');
         Configure::write('App.fullBaseUrl', 'http://localhost');
-        $request = new ServerRequest('/pages/view/1');
+        $request = new ServerRequest(['url' => '/pages/view/1']);
         $request = $request
             ->withAttribute('params', [
                 'action' => 'view',
@@ -233,7 +233,7 @@ class UrlComparerTraitTest extends TestCase {
                 'pass' => ['1']
             ])
             ->withAttribute('base', '/cakephp');
-        Router::setRequestInfo($request);
+        Router::setRequest($request);
         $urlsMatchTrue = [
             // Test root
             ['/', '/'],

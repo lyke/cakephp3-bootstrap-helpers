@@ -381,11 +381,7 @@ class NavbarHelperTest extends TestCase {
                 'pass' => ['1']
             ])
             ->withAttribute('base', '/cakephp');
-        if (method_exists('Router', 'setRequest')) {
-          Router::setRequest($request);
-        } else {
-          Router::setRequestInfo($request);
-        }
+        Router::setRequest($request);
 
         $this->navbar->setConfig('autoActiveLink', true);
         $result = $this->navbar->link('Link', '/pages', [
@@ -423,11 +419,7 @@ class NavbarHelperTest extends TestCase {
                 'pass' => ['faq']
             ])
             ->withAttribute('base', '/cakephp');
-        if (method_exists('Router', 'setRequest')) {
-          Router::setRequest($request);
-        } else {
-          Router::setRequestInfo($request);
-        }
+        Router::setRequest($request);
 
         $this->navbar->setConfig('autoActiveLink', true);
         $result = $this->navbar->link('Link', '/pages', [

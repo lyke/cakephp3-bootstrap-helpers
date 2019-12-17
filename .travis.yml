@@ -9,8 +9,6 @@ php:
 dist: trusty
 
 env:
-#  - CAKEPHP_VERSION=3.7.*
-  - CAKEPHP_VERSION=3.8.*
   - CAKEPHP_VERSION=4.0.*
 
 cache:
@@ -24,7 +22,7 @@ before_install:
 install: composer update --prefer-dist --no-interaction
 
 script:
-  - if [[ $TRAVIS_PHP_VERSION != 7.0 ]]; then vendor/bin/phpunit; fi
+  - vendor/bin/phpunit
 
 notifications:
   email: true
