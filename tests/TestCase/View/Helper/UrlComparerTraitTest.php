@@ -281,7 +281,7 @@ class UrlComparerTraitTest extends TestCase {
                 'pass' => ['faq']
             ])
             ->withAttribute('base', '/cakephp');
-        Router::setRequestInfo($request);
+        Router::setRequest($request);
         $this->_testCompare([
             ['/pages/faq', []],
             [['controller' => 'Pages', 'action' => 'display', 'faq'], []],
