@@ -68,7 +68,7 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper {
             'first' => '<li><a href="{{url}}">{{text}}</a></li>',
             'last' => '<li><a href="{{url}}">{{text}}</a></li>',
             'number' => '<li><a href="{{url}}">{{text}}</a></li>',
-            'current' => '<li class="active"><a href="{{url}}">{{text}}</a></li>',
+            'current' => '<li class="active"><a href="">{{text}}</a></li>',
             'ellipsis' => '<li class="ellipsis disabled"><a>&hellip;</a></li>',
             'sort' => '<a href="{{url}}">{{text}}</a>',
             'sortAsc' => '<a class="asc" href="{{url}}">{{text}}</a>',
