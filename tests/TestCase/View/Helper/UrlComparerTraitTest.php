@@ -37,6 +37,7 @@ class UrlComparerTraitTest extends TestCase {
     public function setUp(): void {
         parent::setUp();
         Configure::write('debug', true);
+        Router::reload();
         Router::scope('/', function (RouteBuilder $routes) {
             $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']); // (1)
             $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']); // (2)
@@ -61,17 +62,19 @@ class UrlComparerTraitTest extends TestCase {
             $nm = $this->trait->normalize($lhs, ['pass' => false]);
             $this->assertTrue($nm == $rhs, sprintf("%s is not normalized as %s but %s.", $lhs, $rhs, $nm));
         }
-        Router::fullBaseUrl('');
+        Router::fullBaseUrl('http://localhost');
         Configure::write('App.fullBaseUrl', 'http://localhost');
-        $request = new ServerRequest(['url' => '/pages/view/1']);
-        $request = $request
-            ->withAttribute('params', [
+        $request = new ServerRequest([
+            'params' => [
                 'action' => 'view',
                 'plugin' => null,
                 'controller' => 'pages',
-                'pass' => ['1']
-            ])
-            ->withAttribute('base', '/cakephp');
+								'pass' => ['1']
+            ],
+            'url' => '/pages/view/1',
+            'base' => '/cakephp',
+            //'webroot' => '/cakephp/',
+        ]);
         Router::setRequest($request);
         $tests = [
             ['/pages', '/pages/display'],
@@ -130,7 +133,7 @@ class UrlComparerTraitTest extends TestCase {
             $nm = $this->trait->normalize($lhs);
             $this->assertTrue($nm == $rhs, sprintf("%s is not normalized as %s but %s.", $lhs, $rhs, $nm));
         }
-        Router::fullBaseUrl('');
+        Router::fullBaseUrl('http://localhost');
         Configure::write('App.fullBaseUrl', 'http://localhost');
         $request = new ServerRequest(['url' => '/pages/view/1']);
         $request = $request
@@ -222,7 +225,7 @@ class UrlComparerTraitTest extends TestCase {
     }
 
     public function testFullBase() {
-        Router::fullBaseUrl('');
+        Router::fullBaseUrl('http://localhost');
         Configure::write('App.fullBaseUrl', 'http://localhost');
         $request = new ServerRequest(['url' => '/pages/view/1']);
         $request = $request
@@ -269,7 +272,7 @@ class UrlComparerTraitTest extends TestCase {
         ];
         $this->_testCompare($urlsMatchTrue, $urlsMatchFalse);
 
-        $request = new ServerRequest('/pages/faq');
+        $request = new ServerRequest(['url' => '/pages/faq']);
         $request = $request
             ->withAttribute('params', [
                 'action' => 'display',

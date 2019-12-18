@@ -35,39 +35,33 @@ class PaginatorHelperTest extends TestCase {
         parent::setUp();
         $request = new ServerRequest([
             'url' => '/',
-            'params' => [
-                'paging' => [
-                    'Article' => [
-                        'page' => 1,
-                        'current' => 9,
-                        'count' => 62,
-                        'prevPage' => false,
-                        'nextPage' => true,
-                        'pageCount' => 7,
-                        'sort' => null,
-                        'direction' => null,
-                        'limit' => null,
-                    ]
-                ]
-            ]
+        ]);
+        $request = $request->withAttribute('paging', [
+            'Article' => [
+                'page' => 1,
+                'current' => 9,
+                'count' => 62,
+                'prevPage' => false,
+                'nextPage' => true,
+                'pageCount' => 7,
+                'sort' => null,
+                'direction' => null,
+                'limit' => null,
+            ],
         ]);
         $this->View = new View($request);
         $this->View->loadHelper('Html', [
             'className' => 'Bootstrap.Html'
         ]);
         $this->Paginator = new PaginatorHelper($this->View);
-        Configure::write('Routing.prefixes', []);
         Router::reload();
-        Router::scope('/', function ($routes) {
-            $routes->connect('/:controller/:action/*');
-            $routes->connect('/:plugin/:controller/:action/*');
-            $routes->fallbacks();
-        });
+        Router::connect('/:controller/:action/*');
+        Router::connect('/:plugin/:controller/:action/*');
     }
 
     public function testNumbers()
     {
-        $this->View->setRequest($this->View->getRequest()->withParam('paging', [
+        $this->View->setRequest($this->View->getRequest()->withAttribute('paging', [
             'Client' => [
                 'page' => 8,
                 'current' => 3,
@@ -75,7 +69,7 @@ class PaginatorHelperTest extends TestCase {
                 'prevPage' => false,
                 'nextPage' => 2,
                 'pageCount' => 15,
-            ]
+            ],
         ]));
         $result = $this->Paginator->numbers();
         $expected = [
