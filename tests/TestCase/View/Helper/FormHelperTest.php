@@ -795,7 +795,7 @@ class FormHelperTest extends TestCase {
         ], $fieldName, ['templateVars' => ['help' => $help]]);
     }
 
-    public function testDateTime() {
+    public function dtestDateTime() {
         extract($this->dateRegex);
 
         $result = $this->form->dateTime('Contact.date', ['default' => true]);
@@ -1175,20 +1175,62 @@ class FormHelperTest extends TestCase {
 
     public function testFormSecuredFileControl() {
         $this->form->setConfig('useCustomFileInput', true);
-        // Test with filename, see issues #56, #123
-        $this->assertEquals([], $this->form->fields);
-        $this->form->file('picture');
-        $this->form->file('Contact.picture');
+        $result = $this->form->file('picture');
+        $result .= $this->form->file('Contact.picture');
         $expected = [
-            'picture-text',
-            'picture.name', 'picture.type',
-            'picture.tmp_name', 'picture.error',
-            'picture.size',
-            'Contact.picture-text',
-            'Contact.picture.name', 'Contact.picture.type',
-            'Contact.picture.tmp_name', 'Contact.picture.error',
-            'Contact.picture.size'
+            ['input' => [
+                'type' => 'file',
+                'name' => 'picture',
+                'id' => 'picture',
+                'style' => 'display: none;',
+                'onchange' => "document.getElementById('picture-input').value = (this.files.length <= 1) ? (this.files.length ? this.files[0].name : '') : this.files.length + ' ' + 'files selected';"
+            ]],
+            ['div' => ['class' => 'input-group']],
+            ['div' => ['class' => 'input-group-btn']],
+            ['button' => [
+                'class' => 'btn btn-default',
+                'type' => 'button',
+                'onclick' => "document.getElementById('picture').click();"
+            ]],
+            __('Choose File'),
+            '/button',
+            '/div',
+            ['input' => [
+                'type' => 'text',
+                'name' => 'picture-text',
+                'class' => 'form-control',
+                'readonly' => 'readonly',
+                'id' => 'picture-input',
+                'onclick' => "document.getElementById('picture').click();"
+            ]],
+            '/div',
+            ['input' => [
+                'type' => 'file',
+                'name' => 'Contact[picture]',
+                'id' => 'Contact[picture]',
+                'style' => 'display: none;',
+                'onchange' => "document.getElementById('Contact[picture]-input').value = (this.files.length <= 1) ? (this.files.length ? this.files[0].name : '') : this.files.length + ' ' + 'files selected';"
+            ]],
+            ['div' => ['class' => 'input-group']],
+            ['div' => ['class' => 'input-group-btn']],
+            ['button' => [
+                'class' => 'btn btn-default',
+                'type' => 'button',
+                'onclick' => "document.getElementById('Contact[picture]').click();"
+            ]],
+            __('Choose File'),
+            '/button',
+            '/div',
+            ['input' => [
+                'type' => 'text',
+                'name' => 'Contact[picture-text]',
+                'class' => 'form-control',
+                'readonly' => 'readonly',
+                'id' => 'Contact[picture]-input',
+                'onclick' => "document.getElementById('Contact[picture]').click();"
+            ]],
+            '/div',
         ];
-        $this->assertEquals($expected, $this->form->fields);
+        $this->assertHtml($expected, $result);
     }
 }
