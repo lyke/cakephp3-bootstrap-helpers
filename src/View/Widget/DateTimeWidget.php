@@ -74,7 +74,7 @@ class DateTimeWidget extends \Cake\View\Widget\DateTimeWidget {
      * @throws \RuntimeException When option data is invalid.
      */
     public function render(array $data, \Cake\View\Form\ContextInterface $context): string {
-        $data = $this->_normalizeData($data);
+        $data += $this->mergeDefaults($data, $context);
         $count = 0;
         foreach ($this->_selects as $select) {
             if ($data[$select] !== false && $data[$select] !== null) {
