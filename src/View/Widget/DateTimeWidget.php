@@ -75,6 +75,7 @@ class DateTimeWidget extends \Cake\View\Widget\DateTimeWidget {
      */
     public function render(array $data, \Cake\View\Form\ContextInterface $context): string {
         $data += $this->mergeDefaults($data, $context);
+/*
         $count = 0;
         foreach ($this->_selects as $select) {
             if ($data[$select] !== false && $data[$select] !== null) {
@@ -84,6 +85,7 @@ class DateTimeWidget extends \Cake\View\Widget\DateTimeWidget {
         $data['templateVars'] += [
             'columnSize' => round(12 / $count)
         ];
+*/
         return parent::render($data, $context);
     }
 
