@@ -309,7 +309,7 @@ aria-haspopup="true" aria-expanded="false">{{content}}{{caret}}</a>',
      * @param string $name Title of the header.
      * @param array $options Array of options for the wrapper tag.
      *
-     * @return A HTML header tag.
+     * @return string A HTML header tag.
      */
     public function header($name, array $options = []) {
         $options += ['templateVars' => []];

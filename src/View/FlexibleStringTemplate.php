@@ -38,7 +38,7 @@ class FlexibleStringTemplate extends EnhancedStringTemplate {
      * @param array $config A set of templates to add.
      * @param callable $callback A general callback that will be called before
      * retrieving any templates.
-     * @param arra $callbacks An array of callbacks.
+     * @param array $callbacks An array of callbacks.
      */
     public function __construct(array $config = [], callable $callback = null, array $callbacks = []) {
         parent::__construct($config);
@@ -54,7 +54,7 @@ class FlexibleStringTemplate extends EnhancedStringTemplate {
      *
      * @return string
     */
-    public function format($name, array $data): string {
+    public function format(string $name, array $data): string {
         $name = $this->_getTemplateName($name, $data);
         return parent::format($name, $data);
     }
@@ -67,7 +67,7 @@ class FlexibleStringTemplate extends EnhancedStringTemplate {
      *
      * @return string The new name of the template.
      */
-    protected function _getTemplateName($name, array &$data = []) {
+    protected function _getTemplateName(string $name, array &$data = []) {
         if (isset($this->_callbacks[$name])) {
             $data = call_user_func($this->_callbacks[$name], $data);
         }

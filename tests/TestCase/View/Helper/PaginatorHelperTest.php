@@ -35,6 +35,11 @@ class PaginatorHelperTest extends TestCase {
         parent::setUp();
         $request = new ServerRequest([
             'url' => '/',
+            'params' => [
+                'plugin' => null,
+                'controller' => '',
+                'action' => 'index',
+            ],
         ]);
         $request = $request->withAttribute('paging', [
             'Article' => [
@@ -57,6 +62,7 @@ class PaginatorHelperTest extends TestCase {
         Router::reload();
         Router::connect('/:controller/:action/*');
         Router::connect('/:plugin/:controller/:action/*');
+        Router::setRequest($request);
     }
 
     public function testNumbers()
